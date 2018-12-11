@@ -20,13 +20,18 @@ public class IdleState : Super_Passive
         _agent.anim.CrossFade("idleNormal", 0.25f);
     }
 
+    const int n = 300;
+    int time = n;
     public override void Step()
     {
         base.Step();
 
-        // If it flees "far enough" look for hiding
-        if (_agent.nav.remainingDistance < 1)
-            _agent.fsm.ChangeState<FleeState>();
+        // When enough time has passed go to passive state
+        if (time <= 0 || Input.GetKeyDown(KeyCode.F))
+        {
+            _agent.fsm.ChangeState<PatrolState>();
+            time = n;
+        }
     }
 
     public override void Exit(AbstractState<TestAgent> newState)
