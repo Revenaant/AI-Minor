@@ -34,6 +34,15 @@ public class HFSM<T> where T : AbstractAgent
         }
 
         AbstractState<T> newState = _stateCache[typeof(U)];
+
+        if (_currentState != null)
+        {
+            // Handle pointing to base super states.
+            if      (typeof(U).Equals(typeof(Super_Passive)))       newState = _stateCache[typeof(IdleState)];
+            //else if (typeof(U).Equals(typeof(Super_Agressive)))     newState = _stateCache[typeof(SeekState)];
+            else if (typeof(U).Equals(typeof(Super_Scared)))        newState = _stateCache[typeof(FleeState)];
+        }
+
         changeState(newState);
     }
 

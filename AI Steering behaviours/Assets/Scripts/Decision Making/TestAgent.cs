@@ -22,11 +22,11 @@ public class TestAgent : AbstractAgent
     private void Start () {
         // Creates an HFSM and sets the starting state
         fsm = new HFSM<TestAgent>(this);
-        fsm.ChangeState<Super_Scared>();
+        fsm.ChangeState<Super_Passive>();
 
         // Anim
         _anim = GetComponent<Animator>();
-        _anim.Play("idleCombat");
+        _anim.Play("walk");
 
         // Nav
         _nav = GetComponent<NavMeshAgent>();

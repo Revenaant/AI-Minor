@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Super_Scared : AbstractState<TestAgent>
 {
-#if DEBUG
     protected virtual void Start()
     {
+#if DEBUG
         // Debug
         button = GameObject.Find(this.ToString().TrimEnd(')').Substring(9)).GetComponent<Buttons>();
         OnStateEnter += button.onActive;
         OnStateExit += button.onPassive;
+#endif
 
         _agent = GetComponent<TestAgent>();
         Debug.Assert(_agent != null, this + ": State is not attached to an object with an agent of type " + typeof(TestAgent) + '!');
     }
-#endif
 
     protected virtual void OnEnable()
     {

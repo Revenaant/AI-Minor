@@ -10,15 +10,18 @@ public class DummyAgent : AbstractAgent
     protected virtual void Start()
     {
         // Creates an HFSM and sets the starting state
-        fsm = new HFSM<DummyAgent>(this);
-        fsm.ChangeState<DummyState>();
+        //fsm = new HFSM<DummyAgent>(this);
+        ////fsm.ChangeState<DummyState>();
+
+        Animator anim = GetComponent<Animator>();
+        anim.Play("2HitComboB");
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
         // Updates the state
-        fsm.Step();
+        //fsm.Step();
     }
 }
 

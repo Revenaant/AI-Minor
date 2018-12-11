@@ -5,28 +5,21 @@ using UnityEngine;
 public class SeekState : Super_Agressive
 {
 #if DEBUG
-    protected override void Awake()
+    protected override void Start()
     {
-        base.Awake();
+        base.Start();
         button = GameObject.Find("Super_Agressive").GetComponent<Buttons>();
         OnStateEnter += button.onActive;
         OnStateExit += button.onPassive;
     }
 #endif
 
-    // Use this for initialization
-    protected override void Start()
-    {
-        base.Start();
-    }
-
-    protected override void OnEnable() { }
-
     public override void Enter(AbstractState<TestAgent> prevState)
     {
         base.Enter(prevState);
+        _agent.nav.isStopped = false;
         _agent.nav.SetDestination(_agent.TargetValid);
-        _agent.anim.Play("run");
+        _agent.anim.CrossFade("run", 0.25f);
     }
 
     public override void Step()
@@ -34,8 +27,11 @@ public class SeekState : Super_Agressive
         base.Step();
 
         // If it flees "far enough" look for hiding
-        if (_agent.nav.remainingDistance < 0.1f)
+        if (_agent.nav.remainingDistance < 0.6f)
+        {
             _agent.fsm.ChangeState<AttackState>();
+            _agent.nav.isStopped = true;
+        }
     }
 
     public override void Exit(AbstractState<TestAgent> newState)

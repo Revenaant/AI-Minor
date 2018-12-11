@@ -29,7 +29,7 @@ public class HideState : Super_Scared
         // When cover has reached start healing
         if (_agent.nav.remainingDistance < 0.1f)
         {
-            _agent.anim.Play("idleBlock");
+            _agent.anim.CrossFade("idleBlock", 0.25f);
             time--;
             _agent.TakeDamage(-1f);
         }

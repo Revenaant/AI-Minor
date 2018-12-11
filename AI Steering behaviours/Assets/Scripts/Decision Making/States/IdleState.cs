@@ -17,8 +17,7 @@ public class IdleState : Super_Passive
     public override void Enter(AbstractState<TestAgent> prevState)
     {
         base.Enter(prevState);
-        _agent.nav.SetDestination(GameObject.Find("FleeSpot" + Random.Range(1, 4)).transform.position);
-        _agent.anim.Play("run");
+        _agent.anim.CrossFade("idleNormal", 0.25f);
     }
 
     public override void Step()

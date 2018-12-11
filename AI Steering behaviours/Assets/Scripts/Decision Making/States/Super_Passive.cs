@@ -36,15 +36,15 @@ public class Super_Passive : AbstractState<TestAgent>
         base.Enter(prevState);
         print("Entering : " + this);
 
-        if (_agent.fsm.GetCurrentState() is Super_Passive && _agent.fsm.GetCurrentState() == this)
-            _agent.fsm.ChangeState<IdleState>();
+        //if (_agent.fsm.GetCurrentState() is Super_Passive && _agent.fsm.GetCurrentState() == this)
+        //if(_agent.fsm.GetCurrentState() != null) _agent.fsm.ChangeState<IdleState>();
     }
 
     public override void Step()
     {
         base.Step();
 
-        if (_agent.TargetDistance < 5)
+        if (_agent.TargetDistance < 7)
             _agent.fsm.ChangeState<Super_Agressive>();
 
         if (_agent.health <= 250)
