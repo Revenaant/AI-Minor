@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Super_Scared : AbstractState<TestAgent>
 {
-//#if DEBUG
+#if DEBUG
     protected virtual void Start()
     {
         // Debug
@@ -15,7 +15,7 @@ public class Super_Scared : AbstractState<TestAgent>
         _agent = GetComponent<TestAgent>();
         Debug.Assert(_agent != null, this + ": State is not attached to an object with an agent of type " + typeof(TestAgent) + '!');
     }
-//#endif
+#endif
 
     protected virtual void OnEnable()
     {

@@ -5,9 +5,9 @@ using UnityEngine;
 public class IdleState : Super_Passive
 {
 #if DEBUG
-    protected override void Awake()
+    protected override void Start()
     {
-        base.Awake();
+        base.Start();
         button = GameObject.Find("Super_Passive").GetComponent<Buttons>();
         OnStateEnter += button.onActive;
         OnStateExit += button.onPassive;
@@ -27,7 +27,7 @@ public class IdleState : Super_Passive
 
         // If it flees "far enough" look for hiding
         if (_agent.nav.remainingDistance < 1)
-            _agent.fsm.ChangeState<HideState>();
+            _agent.fsm.ChangeState<FleeState>();
     }
 
     public override void Exit(AbstractState<TestAgent> newState)

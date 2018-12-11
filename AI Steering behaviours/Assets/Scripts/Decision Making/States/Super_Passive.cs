@@ -5,23 +5,25 @@ using UnityEngine;
 public class Super_Passive : AbstractState<TestAgent>
 {
 #if DEBUG
-    protected virtual void Awake()
+    protected virtual void Start()
     {
         // Debug
         button = GameObject.Find(this.ToString().TrimEnd(')').Substring(9)).GetComponent<Buttons>();
         OnStateEnter += button.onActive;
         OnStateExit += button.onPassive;
+
+        //button.onActive();
     }
 #endif
 
-    // Use this for initialization
-    protected virtual void Start()
-    {
-#if DEBUG
-        // Debug
-        button.onActive();
-#endif
-    }
+//    // Use this for initialization
+//    protected virtual void Start()
+//    {
+//#if DEBUG
+//        // Debug
+//        //button.onActive();
+//#endif
+//    }
 
     protected virtual void OnEnable()
     {
