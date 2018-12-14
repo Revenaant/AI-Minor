@@ -11,6 +11,8 @@ public class IdleState : Super_Passive
         button = GameObject.Find("Super_Passive").GetComponent<Buttons>();
         OnStateEnter += button.onActive;
         OnStateExit += button.onPassive;
+
+        button.onActive();
     }
 #endif
 
@@ -18,9 +20,10 @@ public class IdleState : Super_Passive
     {
         base.Enter(prevState);
         _agent.anim.CrossFade("idleNormal", 0.25f);
+        _agent.nav.SetDestination(transform.position);
     }
 
-    const int n = 300;
+    const int n = 150;
     int time = n;
     public override void Step()
     {

@@ -562,6 +562,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1453448603}
   health: 600
+  maxHealth: 0
   _text: {fileID: 345328827}
 --- !u!114 &908279794
 MonoBehaviour:
@@ -629,6 +630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d06e7282f9a034c9a3674863b245a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _wanderStepDistance: 2.5
 --- !u!114 &908279800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +643,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waypoints: {fileID: 1967625603}
+--- !u!114 &908279801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 908279785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce989ae5c83fba64ebb2fc5a4007fa2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1176185899
 GameObject:
   m_ObjectHideFlags: 0

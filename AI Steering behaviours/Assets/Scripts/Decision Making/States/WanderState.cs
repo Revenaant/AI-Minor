@@ -12,26 +12,27 @@ public class WanderState : Super_Passive
         button = GameObject.Find("Super_Passive").GetComponent<Buttons>();
         OnStateEnter += button.onActive;
         OnStateExit += button.onPassive;
+
+        button.onActive();
     }
 #endif
 
-    Vector3 pos;
+    [SerializeField] private float _wanderStepDistance = 0.5f;
 
     public override void Enter(AbstractState<TestAgent> prevState)
     {
         base.Enter(prevState);
         _agent.anim.CrossFade("walk", 0.25f);
-        pos = RandomNavSphere(_agent.transform.position, 3, 0);
+        _agent.nav.SetDestination(recalcWander());
     }
 
     public override void Step()
     {
         base.Step();
 
-        if (Vector3.Distance(_agent.transform.position, pos) < 3f)
+        if (!_agent.nav.pathPending && _agent.nav.remainingDistance < 0.1f)
         {
-            _agent.nav.SetDestination(pos);
-            pos = RandomNavSphere(_agent.transform.position, 3, 0);
+            _agent.nav.SetDestination(recalcWander());
         }
     }
 
@@ -40,16 +41,17 @@ public class WanderState : Super_Passive
         base.Exit(newState);
     }
 
-    public static Vector3 RandomNavSphere(Vector3 origin, float distance, int layermask)
+    private Vector3 recalcWander()
     {
-        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * distance;
+        Vector3 targetDir = Quaternion.AngleAxis(Random.Range(-60f, 60f), transform.up) * transform.forward;
+        targetDir = targetDir.normalized * _wanderStepDistance + transform.position;
+        NavMeshHit hit;
 
-        randomDirection += origin;
-
-        NavMeshHit navHit;
-
-        NavMesh.SamplePosition(randomDirection, out navHit, distance, layermask);
-
-        return navHit.position;
+        if (NavMesh.Raycast(transform.position, targetDir, out hit, NavMesh.AllAreas))
+        {
+            targetDir = Quaternion.AngleAxis(Random.Range(120f, 240f), transform.up) * transform.forward;
+            targetDir = targetDir.normalized * _wanderStepDistance + transform.position;
+        }
+        return targetDir;
     }
 }

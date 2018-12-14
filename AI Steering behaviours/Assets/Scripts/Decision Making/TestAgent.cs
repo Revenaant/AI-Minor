@@ -13,7 +13,7 @@ public class TestAgent : AbstractAgent
 
     [Range(0, 600)]
     public float health;
-    private float _maxHealth;
+    public float maxHealth;
 
     private UIFillBar _fillbar;
     public UnityEngine.UI.Text _text;
@@ -22,18 +22,17 @@ public class TestAgent : AbstractAgent
     private void Start () {
         // Creates an HFSM and sets the starting state
         fsm = new HFSM<TestAgent>(this);
-        fsm.ChangeState<Super_Passive>();
+        fsm.ChangeState<NullState>();
 
         // Anim
         _anim = GetComponent<Animator>();
-        _anim.Play("walk");
 
         // Nav
         _nav = GetComponent<NavMeshAgent>();
-        _nav.SetDestination(TargetValid);
 
+        // Health bar
         _fillbar = GetComponent<UIFillBar>();
-        _maxHealth = health;
+        maxHealth = health;
     }
 	
 	// Update is called once per frame
@@ -41,8 +40,24 @@ public class TestAgent : AbstractAgent
         // Updates the state
         fsm.Step();
 
-        if (Input.GetKeyDown(KeyCode.O)) fsm.ChangeState<FleeState>();// TakeDamage(100);
-        if (Input.GetKeyDown(KeyCode.I)) fsm.ChangeState<HideState>();// TakeDamage(-100);
+        if (Input.GetKeyDown(KeyCode.O)) TakeDamage(100);
+        if (Input.GetKeyDown(KeyCode.I)) TakeDamage(-100);
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) fsm.ChangeState<Super_Passive>();
+        if (Input.GetKeyDown(KeyCode.Alpha2)) fsm.ChangeState<Super_Agressive>();
+        if (Input.GetKeyDown(KeyCode.Alpha3)) fsm.ChangeState<Super_Scared>();
+
+        if (Input.GetKeyDown(KeyCode.Alpha4)) fsm.ChangeState<IdleState>();
+        if (Input.GetKeyDown(KeyCode.Alpha5)) fsm.ChangeState<PatrolState>();
+        if (Input.GetKeyDown(KeyCode.Alpha6)) fsm.ChangeState<WanderState>();
+
+        if (Input.GetKeyDown(KeyCode.Alpha7)) fsm.ChangeState<SeekState>();
+        if (Input.GetKeyDown(KeyCode.Alpha8)) fsm.ChangeState<AttackState>();
+
+        if (Input.GetKeyDown(KeyCode.Alpha9)) fsm.ChangeState<FleeState>();
+        if (Input.GetKeyDown(KeyCode.Alpha0)) fsm.ChangeState<HideState>();
+
+        if (Input.GetKeyDown(KeyCode.Tab)) fsm.ChangeState<NullState>();
     }
 
     /// <summary>
@@ -51,9 +66,9 @@ public class TestAgent : AbstractAgent
     /// <param name="damage"></param>
     public virtual void TakeDamage(float damage)
     {
-        health = Mathf.Clamp(health - damage, 0, _maxHealth);
-        StartCoroutine(_fillbar.lerpBar(health / _maxHealth));
-        _text.text = health + " / " + _maxHealth;
+        health = Mathf.Clamp(health - damage, 0, maxHealth);
+        StartCoroutine(_fillbar.lerpBar(health / maxHealth));
+        _text.text = health + " / " + maxHealth;
 
         if (health == 0)
         {

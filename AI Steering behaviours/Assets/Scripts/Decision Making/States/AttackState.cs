@@ -11,6 +11,8 @@ public class AttackState : Super_Agressive
         button = GameObject.Find("Super_Agressive").GetComponent<Buttons>();
         OnStateEnter += button.onActive;
         OnStateExit += button.onPassive;
+
+        button.onActive();
     }
 #endif
 

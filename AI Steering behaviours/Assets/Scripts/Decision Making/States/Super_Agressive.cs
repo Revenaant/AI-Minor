@@ -11,6 +11,8 @@ public class Super_Agressive : AbstractState<TestAgent> {
         button = GameObject.Find(this.ToString().TrimEnd(')').Substring(9)).GetComponent<Buttons>();
         OnStateEnter += button.onActive;
         OnStateExit += button.onPassive;
+
+        button.onActive();
 #endif
 
         _agent = GetComponent<TestAgent>();
@@ -19,6 +21,9 @@ public class Super_Agressive : AbstractState<TestAgent> {
 
     protected virtual void OnEnable()
     {
+        _agent = GetComponent<TestAgent>();
+        Debug.Assert(_agent != null, this + ": State is not attached to an object with an agent of type " + typeof(TestAgent) + '!');
+
         //if (_agent.fsm.GetCurrentState() is Super_Agressive && _agent.fsm.GetCurrentState() == this)
         //{
         //    _agent.anim.Play("idleCombat");
@@ -53,7 +58,7 @@ public class Super_Agressive : AbstractState<TestAgent> {
         base.Step();
 
         // If too hurt, from any state, go to Flee
-        if (_agent.health <= 250) _agent.fsm.ChangeState<FleeState>();
+        if (_agent.health <= 250) _agent.fsm.ChangeState<Super_Scared>();
     }
 
     public override void Exit(AbstractState<TestAgent> newState)

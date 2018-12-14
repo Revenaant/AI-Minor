@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Super_Passive : AbstractState<TestAgent>
+public class NullState : AbstractState<TestAgent>
 {
 #if DEBUG
     protected virtual void Start()
@@ -12,21 +12,9 @@ public class Super_Passive : AbstractState<TestAgent>
         OnStateEnter += button.onActive;
         OnStateExit += button.onPassive;
 
-        _agent = GetComponent<TestAgent>();
-        Debug.Assert(_agent != null, this + ": State is not attached to an object with an agent of type " + typeof(TestAgent) + '!');
-
         button.onActive();
     }
 #endif
-
-//    // Use this for initialization
-//    protected virtual void Start()
-//    {
-//#if DEBUG
-//        // Debug
-//        //button.onActive();
-//#endif
-//    }
 
     protected virtual void OnEnable()
     {
@@ -38,20 +26,11 @@ public class Super_Passive : AbstractState<TestAgent>
     {
         base.Enter(prevState);
         print("Entering : " + this);
-
-        //if (_agent.fsm.GetCurrentState() is Super_Passive && _agent.fsm.GetCurrentState() == this)
-        //if(_agent.fsm.GetCurrentState() != null) _agent.fsm.ChangeState<IdleState>();
     }
 
     public override void Step()
     {
         base.Step();
-
-        if (_agent.TargetDistance < 7)
-            _agent.fsm.ChangeState<Super_Agressive>();
-
-        if (_agent.health <= 250)
-            _agent.fsm.ChangeState<Super_Scared>();
     }
 
     public override void Exit(AbstractState<TestAgent> newState)

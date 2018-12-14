@@ -14,6 +14,8 @@ public class PatrolState : Super_Passive
         button = GameObject.Find("Super_Passive").GetComponent<Buttons>();
         OnStateEnter += button.onActive;
         OnStateExit += button.onPassive;
+
+        button.onActive();
     }
 #endif
 

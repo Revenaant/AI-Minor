@@ -18,7 +18,7 @@ public class FleeState : Super_Scared
     {
         base.Enter(prevState);
         _agent.nav.SetDestination(GameObject.Find("FleeSpot" + Random.Range(1, 4)).transform.position);
-        _agent.anim.Play("run");
+        _agent.anim.CrossFade("run", 0.25f);
     }
 
     public override void Step()

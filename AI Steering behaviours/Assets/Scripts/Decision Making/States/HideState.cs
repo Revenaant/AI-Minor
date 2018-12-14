@@ -20,8 +20,7 @@ public class HideState : Super_Scared
         _agent.nav.SetDestination(GameObject.Find("HideSpot").transform.position);
     }
 
-    const int n = 1000;
-    int time = n;
+    int time = 0;
     public override void Step()
     {
         base.Step();
@@ -30,15 +29,16 @@ public class HideState : Super_Scared
         if (_agent.nav.remainingDistance < 0.1f)
         {
             _agent.anim.CrossFade("idleBlock", 0.25f);
-            time--;
             _agent.TakeDamage(-1f);
         }
 
+        time++;
+
         // When enough time has passed go to passive state
-        if (time <= 0 || Input.GetKeyDown(KeyCode.F))
+        if (time > 150 && _agent.health >= _agent.maxHealth || Input.GetKeyDown(KeyCode.F))
         {
             _agent.fsm.ChangeState<Super_Passive>();
-            time = n;
+            time = 0;
         }
     }
 
