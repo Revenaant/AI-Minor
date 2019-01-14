@@ -29,6 +29,8 @@ public class IdleState : Super_Passive
     {
         base.Step();
 
+        time--;
+
         // When enough time has passed go to passive state
         if (time <= 0 || Input.GetKeyDown(KeyCode.F))
         {

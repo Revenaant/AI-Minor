@@ -17,6 +17,8 @@ public class FleeState : Super_Scared
     public override void Enter(AbstractState<TestAgent> prevState)
     {
         base.Enter(prevState);
+
+        _agent.nav.isStopped = false;
         _agent.nav.SetDestination(GameObject.Find("FleeSpot" + Random.Range(1, 4)).transform.position);
         _agent.anim.CrossFade("run", 0.25f);
     }

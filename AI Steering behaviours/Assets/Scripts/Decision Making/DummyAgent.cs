@@ -5,6 +5,7 @@ using UnityEngine;
 public class DummyAgent : AbstractAgent
 {
     [HideInInspector] public HFSM<DummyAgent> fsm;
+    public Collider axe;
 
     // Use this for initialization
     protected virtual void Start()
@@ -15,6 +16,7 @@ public class DummyAgent : AbstractAgent
 
         Animator anim = GetComponent<Animator>();
         anim.Play("2HitComboB");
+        axe.enabled = false;
     }
 
     // Update is called once per frame
@@ -22,6 +24,18 @@ public class DummyAgent : AbstractAgent
     {
         // Updates the state
         //fsm.Step();
+    }
+
+    public void hit()
+    {
+        axe.enabled = true;
+        StartCoroutine(WaitOneFrame(() => axe.enabled = false));
+    }
+
+    private IEnumerator WaitOneFrame(System.Action action)
+    {
+        yield return new WaitForSeconds(0.1f);
+        action.Invoke();
     }
 }
 

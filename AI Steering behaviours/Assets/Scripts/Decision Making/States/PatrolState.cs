@@ -55,6 +55,7 @@ public class PatrolState : Super_Passive
         if (currentWaypoint != null)
             _agent.nav.SetDestination(currentWaypoint.position);
 
+        time--;
         // When enough time has passed go to passive state
         if (time <= 0 || Input.GetKeyDown(KeyCode.F))
         {

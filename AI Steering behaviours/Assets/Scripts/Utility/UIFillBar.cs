@@ -58,7 +58,7 @@ public class UIFillBar : MonoBehaviour
         }
 
         // Disable the bar after the lerping is finished
-        if (newValue == 0) disableBar(null);
+        //if (newValue == 0) disableBar(null);
     }
 
     /// <summary>

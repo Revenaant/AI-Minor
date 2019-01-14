@@ -60,6 +60,14 @@ public class TestAgent : AbstractAgent
         if (Input.GetKeyDown(KeyCode.Tab)) fsm.ChangeState<NullState>();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Weapon"))
+        {
+            TakeDamage(100);
+        }
+    }
+
     /// <summary>
     /// Takes health away from the agent by the specified ammount, clamping health to minimum
     /// </summary>
@@ -73,9 +81,13 @@ public class TestAgent : AbstractAgent
         if (health == 0)
         {
             _anim.Play("death");
+            fsm.ChangeState<NullState>();
             //if (OnDeath != null) OnDeath.Invoke(this);
         }
     }
+
+    // This function is called by animator events
+    public void hit() { }
 
     public Animator anim
     {

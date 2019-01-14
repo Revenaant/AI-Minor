@@ -27,4 +27,9 @@ public class Buttons : MonoBehaviour
     {
         _image.color = passive;
     }
+
+    public void SetColor(Color color)
+    {
+        _image.color = color;
+    }
 }
