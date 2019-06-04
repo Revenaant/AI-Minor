@@ -28,7 +28,6 @@ public class SeekState : Super_Agressive
     {
         base.Step();
 
-        // If it flees "far enough" look for hiding
         if (_agent.nav.remainingDistance < 0.6f)
         {
             _agent.fsm.ChangeState<AttackState>();

@@ -42,4 +42,16 @@ public abstract class Composite : BNode
             children.Insert(index, child);
         }
     }
+
+    public override void Reset()
+    {
+        base.Reset();
+        if (children.Count > 0)
+        {
+            for(int i = 0; i < children.Count; i++)
+            {
+                children[i].Reset();
+            }
+        }
+    }
 }

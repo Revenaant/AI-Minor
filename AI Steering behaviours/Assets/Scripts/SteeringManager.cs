@@ -28,6 +28,10 @@ public class SteeringManager : MonoBehaviour
     [Header("Hide Properties")]
     [SerializeField] private float _hideThreatRadius = 30f;
 
+    [Header("Leader Following Properties")]
+    [SerializeField] private float _leaderBehindDist = 5f;
+    [SerializeField] private float _leaderSightRadius = 5f;
+
     [Header("Flocking Properties")]
     [SerializeField] private float _flockingRadius = 15f;
     private HashSet<ISteerable> _neighbors = new HashSet<ISteerable>();
@@ -111,6 +115,20 @@ public class SteeringManager : MonoBehaviour
 
     public void Hide(ISteerable target, List<Collider> obstacles) {
         AccumulateForce(m_Hide(target, obstacles, _hideThreatRadius) * _mult.hide);
+    }
+
+    public void FollowLeader(ISteerable leader, float radius = 10)
+    {
+        UpdateFlockNeighbors(Boid.AllBoids, radius);
+        AccumulateForce(m_LeaderFollowing(leader));
+    }
+    /// <summary>
+    /// Dummy method for GGJ 2019, it's hardcoded stuff
+    /// </summary>
+    /// <param name="leader"></param>
+    public void GetOutTheWay(ISteerable leader)
+    {
+        AccumulateForce(m_GetOutTheWay(leader));
     }
 
     public void Separation(float radius = 10)
@@ -320,6 +338,70 @@ public class SteeringManager : MonoBehaviour
         }
 
         return steering;
+    }
+
+    Vector3 _behindLeaderPos;
+    Vector3 _aheadLeaderPos;
+    private Vector3 m_LeaderFollowing(ISteerable leader)
+    {
+        Vector3 tv = leader.Velocity;
+        Vector3 force = new Vector3();
+
+        if (leader.Velocity.magnitude != 0)
+        {
+            // Calculate the ahead point
+            tv = tv.normalized * _leaderBehindDist;
+            _aheadLeaderPos = leader.Position + tv;
+
+            // Calculate the behind point
+            _behindLeaderPos = leader.Position + (tv * -1);
+        }
+
+        // If the character is on the leader's sight,
+        // add a force to evade the route immediately
+        if (IsOnLeaderSight(leader, _aheadLeaderPos)) force += m_Evade(leader) * _mult.evade;
+
+        // Creates a force to arrive at the behind point
+        force += m_Seek(_behindLeaderPos, 15) * _mult.seek;
+
+        // Add separation Force
+        force += m_Separation(_neighbors) * _mult.separation;
+
+        return force;
+    }
+
+    /// <summary>
+    /// Specific method for Game Jam - It's hardcoded stuff
+    /// </summary>
+    /// <param name="leader"></param>
+    /// <returns></returns>
+    private Vector3 m_GetOutTheWay(ISteerable leader)
+    {
+        Vector3 tv = leader.Velocity;
+        Vector3 force = new Vector3();
+
+        if (leader.Velocity.magnitude != 0)
+        {
+            // Calculate the ahead point
+            tv = tv.normalized * _leaderBehindDist * 2;
+            _aheadLeaderPos = leader.Position + tv;
+        }
+
+        // If the character is on the leader's sight,
+        // add a force to evade the route immediately
+        if (IsOnLeaderSight(leader, _aheadLeaderPos)) force += m_Evade(leader) * _mult.evade;
+
+        return force;
+    }
+
+    public float LeaderSightRadius
+    {
+        get { return _leaderSightRadius; }
+        set { _leaderSightRadius = value; }
+    }
+    private bool IsOnLeaderSight(ISteerable leader, Vector3 leaderAheadPos)
+    {
+        return Vector3.Distance(leaderAheadPos, _agent.Position) <= LeaderSightRadius || Vector3.Distance(leader.Position, _agent.Position) <= LeaderSightRadius;
     }
 
     private Vector3 m_Hide(ISteerable target, List<Collider> obstacles, float threatRadius = 30)

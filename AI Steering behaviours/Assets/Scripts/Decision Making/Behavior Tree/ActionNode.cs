@@ -26,6 +26,11 @@ public class ActionNode : BNode
         this.action = action;
     }
 
+    public override void Init(System.Action action)
+    {
+        if (action != null) action.Invoke();
+    }
+
     public override BNodeStatus Run()
     {
         switch (action())

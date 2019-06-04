@@ -28,6 +28,16 @@ public class Buttons : MonoBehaviour
         _image.color = passive;
     }
 
+    public void SetStatus(BNodeStatus status)
+    {
+        switch(status)
+        {
+            case BNodeStatus.Running: SetColor(Color.yellow); break;
+            case BNodeStatus.Success: SetColor(Color.green); break;
+            case BNodeStatus.Failure: SetColor(Color.red); break;
+        }
+    }
+
     public void SetColor(Color color)
     {
         _image.color = color;

@@ -34,6 +34,7 @@ public class Preyoid : Boid
         if (toggles[11].isOn) _steering.Cohesion(10);
         if (toggles[10].isOn) _steering.Alignment(10);
         if (toggles[2].isOn) _steering.Wander();
+        if (toggles[12].isOn) _steering.FollowLeader(FindObjectOfType<Hunteroid>());
 
 
         transform.GetChild(0).localScale = Vector3.one;

@@ -21,4 +21,10 @@ public abstract class Decorator : BNode {
     {
         get { return child; }
     }
+
+    public override void Reset()
+    {
+        base.Reset();
+        if (child != null) child.Reset();
+    }
 }

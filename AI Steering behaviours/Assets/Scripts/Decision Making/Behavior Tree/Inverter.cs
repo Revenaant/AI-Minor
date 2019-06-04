@@ -6,6 +6,11 @@ public class Inverter : Decorator
 {
     public Inverter(BNode node) : base(node) { }
 
+    public override void Init(System.Action action)
+    {
+        if (action != null) action.Invoke();
+    }
+
     /// <summary>
     /// Reports a success if the child fails and a failure
     /// if the child succeeds.Running will report as running

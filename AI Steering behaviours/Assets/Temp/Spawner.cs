@@ -37,6 +37,8 @@ public class Spawner : MonoBehaviour
     {
         Boid.AllBoids.Clear();
         Obstacle.AllObstacles.Clear();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+
+        UnityEngine.SceneManagement.Scene scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(scene.buildIndex);
     }
 }
